@@ -1,12 +1,14 @@
 from django.core import validators
 from rest_framework import serializers
 
-from .models import CarModel, AutoParkModel
+from core.models import CarModel, AutoParkModel
+
 
 class CarRetriaveSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarModel
         fields = '__all__'
+
 
 class CarSerializer(serializers.ModelSerializer):
     brand = serializers.CharField(validators=[
@@ -19,15 +21,6 @@ class CarSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'autopark': {'write_only': True}
         }
-
-    def validate_year(self, year):
-        if year % 2 == 0:
-            raise serializers.ValidationError('only odd years')
-        return year
-
-    def validate(self, all_fields):
-        print(all_fields)
-        return all_fields
 
 
 class AutoParkSerializer(serializers.ModelSerializer):
